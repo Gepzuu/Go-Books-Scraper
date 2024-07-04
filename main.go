@@ -7,8 +7,8 @@ import (
 func main() {
 	c :=colly.NewCollector()
 
-	c.OnHTML("", func(h *colly.HTMLElement) {
+	c.OnHTML("li.next a", func(h *colly.HTMLElement) {
+		c.Visit(h.Request.AbsoluteURL(h.Attr("href")))
 
-		
 	})
 }
