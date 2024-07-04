@@ -5,6 +5,7 @@ import (
 	"github.com/gocolly/colly"
 	"log"
 	"encoding/json"
+	"time"
 )
 
 type Item struct {
@@ -14,7 +15,15 @@ type Item struct {
 	Instock string `json:"instock"`
 }
 
+func timer(name string) func () {
+	start := time.Now()
+	return func() {
+        fmt.Printf("%s took %v\n", name, time.Since(start))
+    }
+}
+
 func main() {
+	defer timer("main")()
 	c := colly.NewCollector()
 
 	items := []Item{}
