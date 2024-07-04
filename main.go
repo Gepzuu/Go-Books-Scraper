@@ -31,6 +31,7 @@ func main() {
 		Instock: h.ChildAttr("p.instock"),
 
 	}
+	items = append(items, i)
 	})
 
 	c.OnRequest(func(r *colly.Request){
