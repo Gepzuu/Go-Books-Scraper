@@ -13,6 +13,12 @@ func main() {
 
 	})
 
+	c.OnHTML("", func(h *colly.HTMLElement){
+		fmt.Println(h.ChildAttr("h3 a", "title"))
+
+       
+	})
+
 	c.OnRequest(func(r *colly.Request){
 		fmt.Println("Visiting", r.URL)
 	})
