@@ -1,10 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gocolly/colly"
 	"log"
-	"encoding/json"
+	"sync"
 	"time"
 )
 
@@ -15,27 +16,37 @@ type Item struct {
 	Instock string `json:"instock"`
 }
 
-func timer(name string) func () {
+func timer(name string) func() {
 	start := time.Now()
 	return func() {
-        fmt.Printf("%s took %v\n", name, time.Since(start))
-    }
+		fmt.Printf("%s took %v\n", name, time.Since(start))
+	}
 }
 
 func main() {
 	defer timer("main")()
+
 	c := colly.NewCollector(colly.Async(true))
 
-	items := []Item{}
+	var (
+		items []Item
+		mu    sync.Mutex
+	)
 
-	c.OnHTML("div.side_categories li ul li", func(h *colly.HTMLElement){
+	visitWithLogging := func(url string) {
+		err := c.Visit(url)
+		if err != nil {
+			log.Printf("Error visiting %s: %v", url, err)
+		}
+	}
+
+	c.OnHTML("div.side_categories li ul li", func(h *colly.HTMLElement) {
 		link := h.ChildAttr("a", "href")
-		c.Visit(h.Request.AbsoluteURL(link))
+		visitWithLogging(h.Request.AbsoluteURL(link))
 	})
 
 	c.OnHTML("li.next a", func(h *colly.HTMLElement) {
-		c.Visit(h.Request.AbsoluteURL(h.Attr("href")))
-
+		visitWithLogging(h.Request.AbsoluteURL(h.Attr("href")))
 	})
 
 	c.OnHTML("article.product_pod", func(h *colly.HTMLElement) {
@@ -45,23 +56,23 @@ func main() {
 			Price:   h.ChildText("p.price_color"),
 			Instock: h.ChildText("p.instock"),
 		}
+
+		mu.Lock()
 		items = append(items, i)
+		mu.Unlock()
 	})
 
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
 
-	// c.Visit("https://books.toscrape.com/catalogue/page-1.html")
-
-	c.Visit("https://books.toscrape.com/catalogue/category/books/travel_2/index.html")
+	visitWithLogging("https://books.toscrape.com/catalogue/category/books/travel_2/index.html")
 	c.Wait()
-	
+
 	data, err := json.MarshalIndent(items, "", "  ")
-	if err!= nil {
-        log.Fatal()
-    }
+	if err != nil {
+		log.Fatalf("Error marshalling items to JSON: %v", err)
+	}
 
 	fmt.Println(string(data))
-
 }
