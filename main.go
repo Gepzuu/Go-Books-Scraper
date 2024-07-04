@@ -23,12 +23,12 @@ func main() {
 
 	})
 
-	c.OnHTML("", func(h *colly.HTMLElement){
+	c.OnHTML("article.product_pod", func(h *colly.HTMLElement){
 		i := Item {
 		Link: h.ChildAttr("a", "href"),
 		Name: h.ChildAttr("h3 a", "title"),
-		Price: h.ChildAttr("p.price_color"),
-		Instock: h.ChildAttr("p.instock"),
+		Price: h.ChildText("p.price_color"),
+		Instock: h.ChildText("p.instock"),
 
 	}
 	items = append(items, i)
