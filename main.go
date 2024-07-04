@@ -17,5 +17,5 @@ func main() {
 		fmt.Println("Visiting", r.URL)
 	})
 
-	
+	c.Visit("https://books.toscrape.com/catalogue/page-1.html")
 }
