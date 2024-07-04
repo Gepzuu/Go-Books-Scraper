@@ -24,7 +24,7 @@ func timer(name string) func () {
 
 func main() {
 	defer timer("main")()
-	c := colly.NewCollector()
+	c := colly.NewCollector(colly.Async(true))
 
 	items := []Item{}
 
