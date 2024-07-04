@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/gocolly/colly"
+	"log"
+	"encoding/json"
 )
 
 type Item struct {
