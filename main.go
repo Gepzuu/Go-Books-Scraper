@@ -5,6 +5,12 @@ import (
 	"github.com/gocolly/colly"
 )
 
+type Item struct{
+	Link string 'json:"Link"'
+	Name string 'json:"name"'
+	Price string 'json:"price"'
+	Instock string 'json:"instock"'
+}
 func main() {
 	c :=colly.NewCollector()
 
