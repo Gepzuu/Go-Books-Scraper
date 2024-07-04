@@ -16,4 +16,6 @@ func main() {
 	c.OnRequest(func(r *colly.Request){
 		fmt.Println("Visiting", r.URL)
 	})
+
+	
 }
