@@ -40,7 +40,7 @@ func main() {
 
 	c.Visit("https://books.toscrape.com/catalogue/page-1.html")
 	
-	data, err := json.MarshallIndent(items, " ", "")
+	data, err := json.MarshalIndent(items, "", "  ")
 	if err!= nil {
         log.Fatal()
     }
