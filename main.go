@@ -11,4 +11,6 @@ func main() {
 		c.Visit(h.Request.AbsoluteURL(h.Attr("href")))
 
 	})
+
+	c.OnRequest(funct())
 }
