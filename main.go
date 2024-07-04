@@ -28,6 +28,11 @@ func main() {
 
 	items := []Item{}
 
+	c.OnHTML("div.side_categories li ul li", func(h *colly.HTMLElement){
+		link := h.ChildAttr("a", "href")
+		c.Visit(h.Request.AbsoluteURL(link))
+	})
+
 	c.OnHTML("li.next a", func(h *colly.HTMLElement) {
 		c.Visit(h.Request.AbsoluteURL(h.Attr("href")))
 
@@ -47,7 +52,10 @@ func main() {
 		fmt.Println("Visiting", r.URL)
 	})
 
-	c.Visit("https://books.toscrape.com/catalogue/page-1.html")
+	// c.Visit("https://books.toscrape.com/catalogue/page-1.html")
+
+	c.Visit("https://books.toscrape.com/catalogue/category/books/travel_2/index.html")
+	c.Wait()
 	
 	data, err := json.MarshalIndent(items, "", "  ")
 	if err!= nil {
