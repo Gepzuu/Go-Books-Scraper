@@ -13,5 +13,7 @@ func main() {
 
 	})
 
-	c.OnRequest(funct())
+	c.OnRequest(func(r *colly.Request){
+		fmt.Println("Visiting", r.URL)
+	})
 }
