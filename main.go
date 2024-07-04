@@ -16,15 +16,21 @@ type Item struct {
 func main() {
 	c :=colly.NewCollector()
 
+	items :=[]Item{}
+
 	c.OnHTML("li.next a", func(h *colly.HTMLElement) {
 		c.Visit(h.Request.AbsoluteURL(h.Attr("href")))
 
 	})
 
 	c.OnHTML("", func(h *colly.HTMLElement){
-		fmt.Println(h.ChildAttr("h3 a", "title"))
+		i := Item {
+		Link: h.ChildAttr("a", "href"),
+		Name: h.ChildAttr("h3 a", "title"),
+		Price: h.ChildAttr("p.price_color"),
+		Instock: h.ChildAttr("p.instock"),
 
-       
+	}
 	})
 
 	c.OnRequest(func(r *colly.Request){
