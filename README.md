@@ -3,11 +3,11 @@
 A Go-based web scraper designed to extract book information from the BooksToScrape website. Utilizing the powerful Colly library, this application efficiently navigates the website, collects data, and formats it into structured JSON output.</div>
 
 ## Features:
-Concurrent Scraping: Leverages Colly's asynchronous capabilities to scrape multiple pages concurrently, improving efficiency and speed. <br>
-Structured Data Extraction: Collects detailed information about each book, including the link, name, price, and stock status.<br>
-Error Handling: Includes robust error handling mechanisms to log and manage potential issues during the scraping process.<br>
-Performance Monitoring: Incorporates a timer function to measure and display the total execution time for the scraping process.<br>
-Thread Safety: Utilizes sync.Mutex to ensure thread-safe operations when accessing shared resources.
+- Concurrent Scraping: Leverages Colly's asynchronous capabilities to scrape multiple pages concurrently, improving efficiency and speed. <br>
+- Structured Data Extraction: Collects detailed information about each book, including the link, name, price, and stock status.<br>
+- Error Handling: Includes robust error handling mechanisms to log and manage potential issues during the scraping process.<br>
+- Performance Monitoring: Incorporates a timer function to measure and display the total execution time for the scraping process.<br>
+- Thread Safety: Utilizes sync.Mutex to ensure thread-safe operations when accessing shared resources.
 
 ## Prerequisites:
 
